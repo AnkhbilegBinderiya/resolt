@@ -46,7 +46,7 @@ const Prediction = ({id}) => {
         }
     }, [header]);
 
-    const Calculate = () => {
+    const Calculate = useCallback(() => {
         let total = option1 + optionX + option2;
 
         let calc1 = (option1 / total) * 100;
@@ -62,9 +62,9 @@ const Prediction = ({id}) => {
             setProcessX(calcX.toFixed(1));
             setProcess2(calc2.toFixed(1));
         }
-    };
+    }, [option1, optionX, option2, header]);
     
-    const SavePick = async () => {
+    const SavePick = useCallback(async () => {
         const payload = {id, pick};
         try {
             const response = await fetch("http://localhost:6969/events/pick", {
@@ -76,26 +76,33 @@ const Prediction = ({id}) => {
             });
     
             if (response.ok) {
-                toast.success(`Баярлалаа`, {position: 'top-center' , icon: <BsEmojiSunglassesFill className='text-green-600'/>, autoClose: 1000});  
+                toast.success(`Баярлалаа`, {
+                    position: 'top-center', 
+                    icon: <BsEmojiSunglassesFill className='text-green-600' />, 
+                    autoClose: 1000,
+                });
             } else {
-              const errorData = await response.json();
-              toast.error(`${errorData.message}`, {position: 'top-center' , icon: <BsHandThumbsDownFill className='text-red-600'/>});
+                const errorData = await response.json();
+                toast.error(`${errorData.message}`, {
+                    position: 'top-center', 
+                    icon: <BsHandThumbsDownFill className='text-red-600' />,
+                });
             }
           } catch (error) {
             toast.error(`An error occurred: ${error.message}`);
         }
         setPick(null);
-    };
+    }, [id, pick]);
 
     useEffect(() => {
         Calculate();
-    }, [option1, optionX, option2, header]);
+    }, [option1, optionX, option2, header, Calculate]);
 
     useEffect(() => {
         if (pick !== null) {
             SavePick();
         }
-    }, [pick]);
+    }, [pick, SavePick]);
 
     const teamOne = async () => {
         setOption1(option1 + 1);

@@ -30,7 +30,7 @@ const UserPage = ({params}) => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [slug]);
 
   if (loading) {
     return (

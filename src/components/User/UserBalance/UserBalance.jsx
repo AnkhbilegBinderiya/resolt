@@ -63,7 +63,7 @@ const UserBalance = ({id}) => {
                             <p>{amountSlicer(total.total)}</p>
                         </div>
                         {data.map((da) => (
-                            <div className="flex w-full py-1 text-sm items-center">
+                            <div className="flex w-full py-1 text-sm items-center" key={da.id}>
                                 <div className='flex gap-1 w-2/4'>
                                     <p className="">{YearCalculate(da.createdAt)}</p>
                                     <p className="">{DateCalculate(da.createdAt)}</p>
@@ -75,7 +75,7 @@ const UserBalance = ({id}) => {
                     </div>
                 ) : (
                     <div className='flex w-full gap-1'>
-                        <p>You haven't any partner account</p>
+                        <p>You haven&apos;t any partner account</p>
                     </div>
                 )}
             </div>
