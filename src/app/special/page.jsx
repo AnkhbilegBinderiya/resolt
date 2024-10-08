@@ -43,7 +43,32 @@ const SpecailPage = () => {
   return (
     <NextUIProvider>
       <div className='flex flex-col w-full z-30 pt-14'>
-      <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4'>
+        <p className='font-semibold p-4 text-2xl'>Marathon</p>
+        <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4'>
+            {data.length > 0 ? (
+                data.map((event) => (
+                    <div className='flex flex-col' key={event.id}>
+                        <GridCard event={event} />
+                    </div>
+                ))
+            ) : (
+                <div className="text-center col-span-full py-4">No events found for the selected date and league.</div>
+            )}
+        </div>
+        <p className='font-semibold p-4 text-2xl'>Weekly Special</p>
+        <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4'>
+            {data.length > 0 ? (
+                data.map((event) => (
+                    <div className='flex flex-col' key={event.id}>
+                        <GridCard event={event} />
+                    </div>
+                ))
+            ) : (
+                <div className="text-center col-span-full py-4">No events found for the selected date and league.</div>
+            )}
+        </div>
+        <p className='font-semibold p-4 text-2xl'>Free run</p>
+        <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4'>
             {data.length > 0 ? (
                 data.map((event) => (
                     <div className='flex flex-col' key={event.id}>

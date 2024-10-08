@@ -1,19 +1,13 @@
 import { NextResponse } from "next/server";
-import { parse } from 'cookie';
 
-export async function POST(request) {
+export async function GET(request) {
+  const { pathname } = new URL(request.url);
+  const slug = pathname.split('/').pop();
+
   try {
-    const cookies = parse(request.headers.get('cookie') || '');
-    const token = cookies.token;
-
-    if (!token) {
-      return NextResponse.json({ error: 'User is not authenticated' }, { status: 401 });
-    }
-
-    const response = await fetch('http://localhost:6969/api/auth/check', {
+    const response = await fetch(`http://localhost:6969/user/data/name/${slug}`, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
@@ -23,15 +17,14 @@ export async function POST(request) {
     }
 
     const data = await response.json();
-    return NextResponse.json(data.user);
+    return NextResponse.json(data);
   } catch (error) {
     console.error('Error fetching profile:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
 
-// Implement other HTTP methods as needed
-export async function GET(request) {}
+export async function POST(request) {}
 export async function HEAD(request) {}
 export async function PUT(request) {}
 export async function DELETE(request) {}

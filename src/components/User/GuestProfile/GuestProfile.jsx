@@ -7,31 +7,31 @@ import { useAuth } from '../../../context/AuthContext';
 import { MdWavingHand } from "react-icons/md";
 import { fetchUserId } from '../../../utils/fetchUserId'
 import { GiMongolia } from "react-icons/gi";
+import fetchUserData from '@/utils/userData';
+import LoadingSpinner from '@/components/Loading/loading';
+import NotFoundScreen from '@/components/NotFound/notFound';
 
 const GuestProfile = ({name}) => {
     const [isPersonal, setIsPersonal] = useState(false);
     const [data, setData] = useState([]);
     const [profile, setProfile] = useState('/assets/image/user/user1.png');
-    const [error, setError] = useState(null);
-    const { logout, token, authCheck } = useAuth();
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-        try {
-            const response = await fetch(`http://localhost:6969/user/data/name/${name}`);
-            if (!response.ok) {
-             throw new Error(`No data found`);
+            const response = await fetchUserData(name);
+            if (!response) {
+                setLoading(false);
+                setNotFound(true);
+            }else{
+                setData(response);
+                setProfile(response.profile);
+                setLoading(false)
             }
-            const result = await response.json();
-            setData(result);
-            setProfile(result.profile);
-        } catch (error) {
-            setData([]);
-            setError(error.message);
-        }
         };
         fetchData();
-    }, [token, name]);
+    }, [name]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -60,6 +60,18 @@ const GuestProfile = ({name}) => {
         setIsEdit(true);
     };
 
+    if(loading){
+        return(
+            <LoadingSpinner/>
+        )
+    }
+
+    if(notFound){
+        return(
+            <NotFoundScreen/>
+        )
+    }
+
     return (
         <NextUIProvider>
             <div className='w-full flex flex-col gap-4'>
@@ -76,7 +88,7 @@ const GuestProfile = ({name}) => {
                         <div className='flex flex-col justify-center h-full gap-4'>
                                 <div className='w-full flex flex-col gap-2'>
                                     <div className='flex flex-col gap-2'>
-                                            <p className='text-lg font-semibold text-primary'>pro &gt;&gt;</p>
+                                    <p className='text-xs font-semibold text-black/20 dark:text-white/20'>id: {data.id}</p>
                                             <p className='text-secondary text-4xl font-semibold text-black dark:text-white'>{name}</p>
                                     </div>
                                 </div>
@@ -113,9 +125,6 @@ const GuestProfile = ({name}) => {
                                 <p className='text-sm'>Picks</p>
                                 <p className='text-2xl font-semibold'>689</p>
                             </div>
-                        </div>
-                        <div className='w-full bg-white dark:bg-widgetDark p-4 rounded-lg'>
-                            <p>Favorite</p>
                         </div>
                     </div>
                 </div>

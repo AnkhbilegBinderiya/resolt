@@ -77,7 +77,6 @@ const Pred = ({ id }) => {
           <Picker id={id}/>
           <Comment id={id}/>
         </div>
-        
       );
     }
   }else{

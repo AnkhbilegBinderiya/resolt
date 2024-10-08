@@ -3,20 +3,21 @@ import Cookies from 'js-cookie';
 
 export async function POST(request) {
     try {
-      const { email, password } = await request.json();
+      const { email, password, username} = await request.json();
   
       // Validate email and password
-      if (!email || !password) {
-        return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
+      if (!email || !password || !username) {
+        return NextResponse.json({ error: 'Something is worng' }, { status: 400 });
       }
 
       const payload = {
         email,
         password,
+        username,
       };
 
       // Authenticate user
-      const response = await fetch("http://localhost:6969/auth/login", {
+      const response = await fetch("http://localhost:6969/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +30,7 @@ export async function POST(request) {
       if (!response.ok) {
         return NextResponse.json(data, { status: response.status });
       }
-
+      
       return NextResponse.json(data,  { status: 200 });
     } catch (error) {
       console.error('Error during authentication:', error);

@@ -2,15 +2,15 @@ export const authCheck = async () => {
   try {
     const response = await fetch('/api/auth/check', { 
       method: 'POST', 
-      cache: 'no-store' // Use this option only if necessary
+      cache: 'no-store'
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
     }
 
-    const data = await response.json();
-    return data;
+    return undefined;
   } catch (error) {
     console.error('Error fetching authentication status:', error);
     throw error;

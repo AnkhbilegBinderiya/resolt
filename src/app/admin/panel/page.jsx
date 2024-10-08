@@ -9,15 +9,12 @@ import { IoChatbox } from "react-icons/io5";
 import { FaDatabase } from "react-icons/fa6";
 import { IoIosBasketball } from "react-icons/io";
 
-import { useAuth } from '../../../context/AuthContext';
-import { fetchUserRole } from '../../../utils/fetchUserRole'
-import { toast } from 'react-toastify';
 import RequestHeader from "@/components/Admin/Request/RequestHeader/RequestHeader";
 import DatabaseHeader from "@/components/Admin/Database/DatabaseHeader/DatabaseHeader";
-import { useRouter } from 'next/navigation'
 import PredictionHeader from "@/components/Admin/Prediction/PredictionHeader/PredictionHeader";
-import { BsHandThumbsDownFill } from "react-icons/bs";
-import { FaHand } from "react-icons/fa6";
+import LoadingSpinner from "@/components/Loading/loading";
+import NotFoundScreen from "@/components/NotFound/notFound";
+
 
 const menus = [
     {
@@ -45,37 +42,43 @@ const menus = [
       logo: "/assets/logo/flags/usa.png",
       icon: <IoIosBasketball size={24}/>
     }
-  ];
+];
+
+async function checkAdmin() {
+  const response = await fetch('/api/auth/check', { 
+    method: 'POST', 
+    cache: 'no-store'
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    if (data && data.role && data.role > 8000) {
+      return data;
+    }
+  }
+  return undefined;
+}
 
 const PanelPage = () => {
     const [selectedMenu, setSelectedMenu] = useState("Home");
     const [role, setRole] = useState(null);
     const [loading, setLoading] = useState(true);
-    const router = useRouter();
-    const { username } = useAuth();
+    const [notFound, setNotFound] = useState(true);
 
     useEffect(() => {
-      const checkUserRole = async () => {
-        const token = Cookies.get('token');
-        if (token) {
-          const fetchedRole = await fetchUserRole(token);
-          if (fetchedRole > 8000) {
-            setRole(fetchedRole);
-            toast.success(`Welcome`, { position: 'top-center', icon: <FaHand className='text-green-600'/>, autoClose: 1000 });
-            setLoading(false)
-          } else {
-            toast.error('STOP THAT SHIT!', { position: 'top-center', icon: <BsHandThumbsDownFill className='text-red-600'/>, autoClose: 1000  });
-            router.push('/');
-          }
+      const fetchUser = async () => {
+        const user = await checkAdmin();
+        if (!user) {
+          setLoading(false);
+          setNotFound(true);
         } else {
-          toast.error('STOP THAT SHIT!', { position: 'top-center', icon: <BsHandThumbsDownFill className='text-red-600'/>, autoClose: 1000  });
-          router.push('/');
+          setRole(user.role);
+          setLoading(false); 
         }
       };
-
-      checkUserRole();
-    }, [router]);
-
+  
+      fetchUser();
+    }, []);
 
     const pickMenu = (menu) => {
         setSelectedMenu(menu);
@@ -98,20 +101,28 @@ const PanelPage = () => {
         }
       };
 
-      if (loading) {
-        return <div>Loading...</div>; // Show a loading indicator while checking the role
-      }
+    if (loading) {
+      return (
+        <LoadingSpinner/>
+      )
+    }
+
+    if (notFound) {
+      return (
+        <NotFoundScreen/>
+      )
+    }
 
     return (
         <NextUIProvider>  
             <div className='flex flex-row w-full z-30 gap-2 mt-16 '>
-                <div className="bg-white rounded-r-xl w-32 h-screen mx-auto pt-6">
+                <div className="bg-white dark:bg-widgetDark rounded-r-xl w-32 h-screen mx-auto pt-6">
                   {role === 8002 ? (
                     menus.map((menu) => (
                         <button
                           key={menu.name}
                           onClick={() => pickMenu(menu.name)}
-                          className={`flex flex-col gap-1 py-4 items-center justify-center w-full font-semibold text-[10px] duration-200 ${selectedMenu === menu.name ? 'text-black' : 'text-gray-500'}`}
+                          className={`flex flex-col gap-1 py-4 items-center justify-center w-full font-semibold text-[10px] duration-200 ${selectedMenu === menu.name ? 'text-black dark:text-white' : 'text-gray-500 dark:text-white/30'}`}
                         >
                           {menu.icon}
                           {menu.name}
@@ -121,17 +132,17 @@ const PanelPage = () => {
                       <button
                         key="Prediction"
                         onClick={() => pickMenu("Prediction")}
-                        className={`flex flex-col gap-1 py-4 items-center justify-center w-full font-semibold text-[10px] duration-200 ${selectedMenu === "Prediction" ? 'text-black' : 'text-gray-500'}`}
+                        className={`flex flex-col gap-1 py-4 items-center justify-center w-full font-semibold text-[10px] duration-200 ${selectedMenu === "Prediction" ? 'text-black dark:text-white' : 'text-gray-500 dark:text-white/30'}`}
                       >
                         <IoIosBasketball size={24}/>
                         Prediction
                       </button>
                     )}
                 </div>
-                <div className="bg-white rounded-xl w-full h-screen pt-8 px-8">
+                <div className="bg-white dark:bg-widgetDark rounded-xl w-full h-screen pt-8 px-8">
                     <div className="flex justify-between items-center">
                         <div className="flex gap-2 items-center">
-                            <p className="text-black font-semibold text-xl">ADMIN PANEL</p>
+                            <p className="text-black dark:text-white font-semibold text-xl">ADMIN PANEL</p>
                         </div>
                     </div>
                     <div className="w-full h-screen">

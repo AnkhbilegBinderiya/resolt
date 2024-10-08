@@ -20,10 +20,28 @@ import { Switch } from "@nextui-org/react";
 import { RiCustomerServiceLine } from "react-icons/ri";
 import { FaBrain } from "react-icons/fa";
 import ProductComponent from '@/components/productComponent/productComponent';
+import { useAuth } from '@/context/AuthContext';
+import authCheck from '@/utils/authCheck';
 
 export default function Home() {
-
   const [isSelected, setIsSelected] = useState(false);
+  const [href, setHref] = useState("/auth/login");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await authCheck();
+        if(!data){
+          setHref(`/auth/login`);
+        }else{
+          setHref(`/user/plan?name=${data.username}`);
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    };
+    fetchData();
+  });
 
   return (
     <NextUIProvider>
@@ -80,48 +98,25 @@ export default function Home() {
             At ResoltX, we pride ourselves on providing a feature-rich platform designed to meet all your sports prediction needs. Our key features include
             </p>
           </div>
-          <div className="w-11/12 flex mx-auto justify-around pb-10 mt-10">
-              <div className="w-80 h-48 border border-white/15 text-white bg-black/80 rounded-xl backdrop-blur-xl  backdrop-brightness-50 py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
+          <div className="grid grid-cols-1 lg:grid-cols-3 w-3/4 gap-x-8 gap-y-8 items-center mx-auto justify-around pb-10 mt-10">
+              <div className="border border-white/15 text-white bg-black/80 rounded-xl backdrop-blur-xl  backdrop-brightness-50 py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
                 <h3 className="text-base mb-2 font-semibold animate-none">Detailed Statistical Predictions</h3>
                 <p>
                 For each game, ResoltX provides an extensive range of statistical predictions. Whether it’s an NBA game or a soccer match, we forecast key statistics like rebounds, assists, goals, and more. Our comprehensive data ensures you get a complete picture of what to expect.
                 </p>
               </div>
-              <div className="w-80 h-48 text-white bg-black/80  border border-white/15 shadow-xl rounded-xl bg-opacity-10 backdrop-blur-lg py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
+              <div className=" text-white bg-black/80  border border-white/15 shadow-xl rounded-xl bg-opacity-10 backdrop-blur-lg py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
                 <h3 className="text-base mb-2 font-semibold animate-none">Full Customer Service</h3>
                 <p>
                 ResoltX prides itself on exceptional customer service. Our platform is service-based, meaning we prioritize your experience and satisfaction. Our friendly and dedicated support team is always ready to assist you with any queries or issues you may have.
                 </p>
               </div>
-              <div className="w-80 h-48  text-white bg-black/80 border border-white/15 shadow-xl rounded-xl bg-opacity-10 backdrop-blur-lg py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
+              <div className=" text-white bg-black/80 border border-white/15 shadow-xl rounded-xl bg-opacity-10 backdrop-blur-lg py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
                 <h3 className="text-base mb-2 font-semibold animate-none">Advanced AI Technology</h3>
                 <p>
                 At the core of ResoltX is our state-of-the-art AI technology. Our advanced algorithms and machine learning models continuously improve to provide the most accurate sports predictions available. We harness the power of AI to give you insights that are both reliable and cutting-edge.
                 </p>
               </div>
-    
-
-            {/* <div className="flex flex-col mx-auto md:mx-0 md:flex-row justify-between md:px-10 px-0 md:mb-32 sm:mb-0 md:-mt-6 mt-6 gap-6">
-              <div className="w-80 h-48 mx-auto border border-white/15 text-white bg-black/80 rounded-xl backdrop-blur-xl  backdrop-brightness-50 py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
-                <h3 className="text-base mb-2 font-semibold animate-none">Detailed Statistical Predictions</h3>
-                <p>
-                For each game, ResoltX provides an extensive range of statistical predictions. Whether it’s an NBA game or a soccer match, we forecast key statistics like rebounds, assists, goals, and more. Our comprehensive data ensures you get a complete picture of what to expect.
-                </p>
-              </div>
-              <div className="w-80 h-48 text-white bg-black/80  border border-white/15 shadow-xl rounded-xl bg-opacity-10 backdrop-blur-lg py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
-                <h3 className="text-base mb-2 font-semibold animate-none">Full Customer Service</h3>
-                <p>
-                ResoltX prides itself on exceptional customer service. Our platform is service-based, meaning we prioritize your experience and satisfaction. Our friendly and dedicated support team is always ready to assist you with any queries or issues you may have.
-                </p>
-              </div>
-              <div className="w-80 h-48  text-white bg-black/80 border border-white/15 shadow-xl rounded-xl bg-opacity-10 backdrop-blur-lg py-6 px-4 hover:bg-white hover:scale-105 hover:text-black duration-300">
-                <h3 className="text-base mb-2 font-semibold animate-none">Advanced AI Technology</h3>
-                <p>
-                At the core of ResoltX is our state-of-the-art AI technology. Our advanced algorithms and machine learning models continuously improve to provide the most accurate sports predictions available. We harness the power of AI to give you insights that are both reliable and cutting-edge.
-                </p>
-              </div>
-            </div> */}
-            
           </div>
         </section>
 
@@ -131,6 +126,7 @@ export default function Home() {
           <p className="w-[70%] text-center mb-12">
             At ResoltX, we offer a variety of subscription plans designed to suit your needs and preferences. Whether you&apos;re just starting out or looking for comprehensive insights, we have a plan that&apos;s right for you. Select the plan that best fits your requirements and start benefiting from our AI-powered sports predictions today.
           </p>
+
           <div className="flex w-4/5 md:w-1/5 justify-between items-center my-7">
             <h4 className={`text-base font-semibold ${isSelected ? 'text-black/40 dark:text-white/30' : 'text-black dark:text-white'}`}>Monthly</h4>
             <Switch defaultSelected size="md" className="text-primary" isSelected={isSelected} onValueChange={setIsSelected}></Switch>
@@ -139,49 +135,49 @@ export default function Home() {
               20% off
             </p>
           </div>
-          <div className="lg:w-3/4 w-full flex md:flex-row flex-col md:justify-evenly gap-6 items-end mt-6">
+          <div className="lg:w-3/4 flex flex-col md:flex-row w-full mx-auto">
             {/* FREE $10 */}
-            <div className="flex flex-col justify-evenly lg:w-[30%] w-11/12 mx-auto border border-black/20 dark:border-white/20 rounded-2xl shadow-md py-8 duration-400">
+            <div className="flex flex-col justify-evenly  lg:w-[30%] w-11/12 mx-auto border  border-black/20 dark:border-white/20 rounded-2xl shadow-md py-8 duration-400">
               <div className="font-semibold text-center mb-2">
-                <h3 className="text-xl">Free</h3>
-                <h4 className="text-6xl  my-3">{isSelected ? '$0' : '$0'}</h4>
-                <p className={`text-sm ${isSelected ? 'text-primary font-semibold' : 'text-black/80 dark:text-white/50 font-normal'}`}>{isSelected ? '/year' : '/mo'}</p>
+                <h3 className="text-xl font-bold text-black bg-clip-text w-32 mx-auto">Free</h3>
+                <h4 className="text-6xl my-3">{isSelected ? '$0' : '$0'}</h4>
+                <p className={` text-sm ${isSelected ? 'text-primary font-semibold' : 'text-black/80 dark:text-white/50 font-normal'}`}>{isSelected ? 'year' : '/mo'}</p>
               </div>
-              <div className="flex flex-col gap-3 ml-5 font-medium mt-6">
-                <div className="flex gap-5 text-sm items-center">
-                  <GoCheck className="text-lg text-primary font-semibold" />
+              <div className="flex flex-col gap-3 ml-5 text-sm font-medium mt-6">
+                <div className="flex gap-5 items-center">
+                  <GoCheck className="text-lg text-primary" />
                   <p>Main predictions</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
+                <div className="flex gap-5 items-center">
                   <GoCheck className="text-lg text-primary" />
                   <p>Customer Support</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
+                <div className="flex gap-5 items-center">
                   <GoCheck className="text-lg text-primary" />
                   <p>Telegram notfication</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
+                <div className="flex gap-5 items-center">
                   <GoCheck className="text-lg text-primary" />
                   <p>Comment Features</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
-                  <GoCheck className="text-lg text-primary" />
-                  <p>Ad-Free Browsing</p>
+                <div className="flex gap-5 items-center">
+                  <GoX className="text-lg text-black" />
+                  <p className="line-through">Ad-Free Browsing</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
-                  <GoX className="text-lg" />
+                <div className="flex gap-5 items-center">
+                  <GoX className="text-lg text-black" />
                   <p className="line-through">Static Predictions</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
-                  <GoX className="text-lg" />
+                <div className="flex gap-5 items-center">
+                  <GoX className="text-lg text-black" />
                   <p className="line-through">Weekly Special Predictions</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
-                  <GoX className="text-lg" />
+                <div className="flex gap-5 items-center">
+                  <GoX className="text-lg text-black" />
                   <p className="line-through">VIP Response and Suppor</p>
                 </div>
-                <div className="flex gap-5 text-sm items-center">
-                  <GoX className="text-lg" />
+                <div className="flex gap-5 items-center">
+                  <GoX className="text-lg text-black" />
                   <p className="line-through">Balance management</p>
                 </div>
               </div>
@@ -238,7 +234,7 @@ export default function Home() {
                 </div>
               </div>
               <Link
-                href=""
+                href={`${href}`}
                 className="text-black bg-yellow-500 px-6 py-2 rounded-lg mx-auto mt-12 mb-3 hover:bg-white duration-300"
               >
                 Choose
@@ -289,7 +285,7 @@ export default function Home() {
                   <p>Balance management</p>
                 </div>
               </div>
-              <Link href="" className="text-white bg-black border border-black/10 dark:border-white/10 px-6 py-2 rounded-lg mx-auto mt-12 hover:scale-110 duration-300">
+              <Link href={`${href}`} className="text-white bg-black border border-black/10 dark:border-white/10 px-6 py-2 rounded-lg mx-auto mt-12 hover:scale-110 duration-300">
                 Choose
               </Link>
             </div>
@@ -383,7 +379,7 @@ export default function Home() {
         </section>
 
         {/*  Experience Our Service and AI section */}
-        <section className="text-black dark:text-white w-full h-lvh my-12">
+        <section className="text-black dark:text-white w-full my-12">
           <div className="w-3/4 mx-auto text-center pt-16">
             <h1 className="text-4xl font-semibold">
               Experience Our Service and AI
@@ -487,8 +483,8 @@ export default function Home() {
           <div className="w-10/12 flex md:flex-row flex-col gap-2 justify-between mx-auto px-2">
             <p>&#169;2024 ResoltX. All rights reserved</p>
             <div className="flex gap-5">
-              <Link href="" className="hover:underline hover:underline-offset-4">Terms of Service</Link>
-              <Link href="" className="hover:underline hover:underline-offset-4">Privacy Policy</Link>
+              <Link href="/terms-of-use" className="hover:underline hover:underline-offset-4">Terms of Service</Link>
+              <Link href="/Vacancies" className="hover:underline hover:underline-offset-4">Vacancies</Link>
             </div>
           </div>
         </section>

@@ -46,7 +46,7 @@ const Prediction = ({id}) => {
         }
     }, [header]);
 
-    const Calculate = useCallback(() => {
+    const Calculate = () => {
         let total = option1 + optionX + option2;
 
         let calc1 = (option1 / total) * 100;
@@ -62,10 +62,9 @@ const Prediction = ({id}) => {
             setProcessX(calcX.toFixed(1));
             setProcess2(calc2.toFixed(1));
         }
-    }, [option1, optionX, option2, header]);
-
-    const SavePick = useCallback(async () => {
-
+    };
+    
+    const SavePick = async () => {
         const payload = {id, pick};
         try {
             const response = await fetch("http://localhost:6969/events/pick", {
@@ -86,17 +85,17 @@ const Prediction = ({id}) => {
             toast.error(`An error occurred: ${error.message}`);
         }
         setPick(null);
-    }, [pick, id]);
+    };
 
     useEffect(() => {
         Calculate();
-    }, [Calculate]);
+    }, [option1, optionX, option2, header]);
 
     useEffect(() => {
         if (pick !== null) {
             SavePick();
         }
-    }, [pick, SavePick]);
+    }, [pick]);
 
     const teamOne = async () => {
         setOption1(option1 + 1);

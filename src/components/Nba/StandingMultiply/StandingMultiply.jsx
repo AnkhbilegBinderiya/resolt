@@ -10,8 +10,6 @@ const StandingMultiply = ({id1, id2}) => {
     const homeId = id1;
     const awayId = id2;
 
-    console.log(homeId, awayId)
-
     useEffect(() => {
         const fetchData = async () => {
 

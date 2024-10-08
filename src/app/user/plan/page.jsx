@@ -8,6 +8,8 @@ import { useAuth } from '../../../context/AuthContext';
 import { useSearchParams } from 'next/navigation'
 import {Image} from "@nextui-org/image";
 import { Suspense } from 'react';
+import LoadingSpinner from '@/components/Loading/loading';
+import fetchUserData from '@/utils/userData';
 
 const months = [
   {key: "1", label: "1 Months"},
@@ -25,8 +27,8 @@ const months = [
 ];
 
 const plans = [
-  {key: "2", name: "Basic Plan", label: "Ideal for beginners. Includes main prediction for every game, ad-free browsing, comment future, and weekly special prediction.", price: 10},
-  {key: "3", name: "Pro Plan", label: "Most popular choice. Offers static and main predictions, providing detailed insights for better decision-making.", price: 20},
+  {key: "2", name: "Free Plan", label: "Ideal for beginners. Includes main prediction for every game, comment future, and weekly special prediction.", price: 0},
+  {key: "3", name: "Pro Plan", label: "Most popular choice. Offers static and main predictions, providing detailed insights for better decision-making.", price: 10},
   {key: "4", name: "Premium Plan", label: "Perfect for experts and tipsters. Includes all Pro Plan features plus advanced analysis and priority support.",price: 30},
 ];
 
@@ -38,7 +40,7 @@ const UserPlan = () => {
   const [tugrug, setTugrug] = useState("");
   const [bank, setBank] = useState("1");
   const [data, setData] = useState("null");
-  const [load, setLoad] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userBank, setUserBank] = useState('Хаан Банк');
   const [userAcc, setUserAcc] = useState('500412432');
   const [userName, setUserName] = useState('Б. Анхбилэг');
@@ -74,19 +76,16 @@ const UserPlan = () => {
 
     useEffect(() => {
       const fetchData = async () => {
-        try {
             const name = searchParams.get('name')
-            const response = await fetch(`http://localhost:6969/user/data/name/${name}`);
-            if (!response.ok) {
-              throw new Error(`No data found`);
+            const response = await fetchUserData(name);
+            if (!response) {
+              window.location.href="/auth/login"
+            }else{
+              setData(response);
+              setLoading(false);
             }
-            const result = await response.json();
-            setData(result);
-        } catch (error) {
-          console.error('Fetch error:', error);
-        }
       };
-    fetchData();
+      fetchData();
     });
 
     useEffect(() => {
@@ -179,6 +178,12 @@ const UserPlan = () => {
         toast.warning('Failed ', {position: 'top-center'});
       }
     }
+
+  if(loading){
+    return (
+      <LoadingSpinner />
+    )
+  }
 
   return (
     <NextUIProvider>

@@ -7,31 +7,33 @@ import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
 import { useAuth } from '@/context/AuthContext'
 import UserPick from '../UserPicks/UserPicks';
-import UserPickDay from '../UserPickDay/UserPickDay';
+import UserBalance from '../UserBalance/UserBalance';
+import { BsGear } from "react-icons/bs";
+import fetchUserData from '@/utils/userData';
+import LoadingSpinner from '@/components/Loading/loading';
+import NotFoundScreen from '@/components/NotFound/notFound'
 
 const UserProfile = ({name}) => {
     const [isPersonal, setIsPersonal] = useState(false);
     const [data, setData] = useState([]);
     const [profile, setProfile] = useState('/assets/image/user/user1.png');
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
     const router = useRouter()
     const { removeToken } = useAuth()
     const href = `/user/profile?user=${name}`
 
     useEffect(() => {
         const fetchData = async () => {
-        try {
-            const response = await fetch(`http://localhost:6969/user/data/name/${name}`);
-            if (!response.ok) {
-             throw new Error(`No data found`);
+            const response = await fetchUserData(name);
+            if (!response) {
+                setLoading(false);
+                setNotFound(true);
+            }else{
+                setData(response);
+                setProfile(response.profile);
+                setLoading(false)
             }
-            const result = await response.json();
-            setData(result);
-            setProfile(result.profile);
-        } catch (error) {
-            setData([]);
-            setError(error.message);
-        }
         };
         fetchData();
     }, [name]);
@@ -63,12 +65,24 @@ const UserProfile = ({name}) => {
 
     const handleLogout = () => {
         removeToken();
-        router.push('/');
+        window.location.href = `/`;
     };
 
     const handleEdit= () => {
         setIsEdit(true);
     };
+
+    if (loading) {
+        return (
+          <LoadingSpinner/>
+        )
+    }
+
+    if (notFound) {
+        return (
+            <NotFoundScreen/>
+        );
+    }
 
     return (
         <NextUIProvider>
@@ -93,17 +107,18 @@ const UserProfile = ({name}) => {
                         <div className='flex flex-col justify-center h-full gap-4'>
                                 <div className='w-full flex flex-col gap-2'>
                                     <div className='flex flex-col gap-2'>
-                                        <p className='text-xs font-semibold text-black/20 dark:text-white/20'>pro / 123823</p>
+                                        <p className='text-xs font-semibold text-black/20 dark:text-white/20'>id: {data.id}</p>
                                         <p className='text-secondary text-4xl font-semibold text-black dark:text-white'>{name}</p>
                                     </div>
                                 </div>
                                 <div className='flex justify-end ml-auto gap-4 mr-12'>
-                                    <a className=" text-black bg-widgetLight dark:bg-white dark:text-black font-semibold py-2 px-6 rounded-md text-xs" href="/auth/login">
-                                        Edit
+                                    <a className=" text-black bg-widgetLight dark:bg-white dark:text-black font-semibold py-2 px-6 rounded-md text-xs flex items-center gap-2" href={`/user/edit?u=${name}`}>
+                                            Edit
+                                            <BsGear/>
                                     </a>
                                     <button className='py-2 px-6 text-xs font-semibold rounded-md bg-red-500 text-white duration-300 items-center gap-2 flex' onClick={handleLogout}>
                                             Logout
-                                            <IoExitOutline />
+                                        <IoExitOutline />
                                     </button>
                                 </div>
                         </div>
@@ -114,7 +129,7 @@ const UserProfile = ({name}) => {
                     {data.plan_id == null  ? (
                         <>
                             <div className='flex gap-1 items-center px-2'>
-                                <p>You haven&apos;t any active plans right now.</p>
+                                <p>You are using free plan now check from another plans right now.</p>
                                 <a href={`/user/plan?name=${data.username}`} className='text-primary underline'>Click here</a>
                             </div>
                         </>
@@ -165,8 +180,8 @@ const UserProfile = ({name}) => {
                             </div>
                         </div>
                         <div className='w-full bg-white dark:bg-widgetDark p-4 rounded-lg flex flex-col gap-2'>
-                            <p className='text-xs'>Last Week</p>
-                            <UserPickDay id={data.id}/>
+                            <p className='text-xs'>Your balance</p>
+                            <UserBalance id={data.id}/>
                         </div>
                     </div>
                 </div>

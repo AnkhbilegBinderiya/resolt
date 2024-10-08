@@ -60,7 +60,7 @@ const CommentCard = ({comments}) => {
         <div className={`flex flex-col w-full py-4 px-8 text-xs my-2 rounded-lg gap-4 border-1 dark:border-white/10`}>
             <div className="w-full flex justify-between text-sm">
                 <Link className=" font-bold underline underline-offset-4" href={href} >@{comments.username}</Link>
-                <p className={`font-semibold ${comments.role == null ? ' text-black dark:text-white font-light' : comments.role == 1 ? ' text-black dark:text-white font-light' : comments.role == 2 ?  ' text-primary' : comments.role == 3 ?  'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text w-20' : ' text-black dark:text-white font-light'}`}>{comments.role == null ? 'Uploading...' : comments.role == 1 ? 'Basic' : comments.role == 2 ?  'Pro' : comments.role == 3 ?  'Premium' : 'User'}</p>
+                <p className={`font-semibold ${comments.role == null ? ' text-black dark:text-white font-light' : comments.role == 1 ? ' text-black dark:text-white font-light' : comments.role == 2 ?  ' text-primary' : comments.role == 3 ?  'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text' : ' text-black dark:text-white font-light'}`}>{comments.role == null ? 'Uploading...' : comments.role == 1 ? '-' : comments.role == 2 ?  'Pro' : comments.role == 3 ?  'Premium' : '-'}</p>
             </div>
             <div className="w-full flex justify-between">
                 <p className="text-xs dark:text-white/70">{comments.comment}</p>

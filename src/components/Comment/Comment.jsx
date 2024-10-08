@@ -21,8 +21,10 @@ const Comment = ({ id }) => {
             } catch (error) {
                 console.error('Fetch error:', error);
             }
-            const fetchedId = await fetchUserId(token);
-            setUserId(fetchedId)
+            if(token){
+                const fetchedId = await fetchUserId(token);
+                setUserId(fetchedId)
+            }
         };
     fetchData();
     }, [id, token]);
@@ -41,7 +43,7 @@ const Comment = ({ id }) => {
     }else{
         return(
             <div className="w-full flex flex-col p-4">
-                <CustomerComments id={id}/>
+                <CustomerComments id={id} comments={comments}/>
                 <div className='flex gap-1 mx-auto'>
                     <p>You need to</p> 
                     <p className='text-primary font-semibold'>Login</p>

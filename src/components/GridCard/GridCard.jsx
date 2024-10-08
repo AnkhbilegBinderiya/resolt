@@ -34,10 +34,10 @@ const GridCard = ({event}) => {
     }
 
     return (
-        <div className="flex items-center w-full rounded-xl bg-white text-black p-4 min-h-64 hover:scale-105 duration-300 hover:bg-primary hover:text-white">
+        <div className="flex items-center w-full rounded-xl bg-white text-black p-4 hover:bg-black/5 duration-250">
             <Link className="w-full h-full flex flex-col py-1 gap-8" href="/">
                 <div className="flex font-medium items-center justify-between">
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-2">
                         <Image
                             width={24}
                             height={16}
@@ -45,7 +45,7 @@ const GridCard = ({event}) => {
                             src={event.league_logo}
                             radius="none"
                         />
-                        <p>{event.league_name}</p>
+                        <p className="text-xs">{event.league_name}</p>
                     </div>
                     <div className="flex text-xs gap-1">
                         <p>{YearCalculate(event.date)}</p>
@@ -56,18 +56,13 @@ const GridCard = ({event}) => {
                     <div className="flex justify-between items-center">
                         <div className="items-center flex flex-col space-y-2">
                             <Image width={48} height={48} radius="none" src={event.home_team_logo} alt={event.home_team_name}/>
-                            <p className="font-medium text-xs">{event.home_team_name}</p>
                         </div>
                     </div>
                     <div className="items-center flex justify-between">
                         <div className="items-center flex flex-col space-y-2">
                             <Image width={48} height={48} radius="none" src={event.away_team_logo} alt={event.away_team_name}/>
-                            <p className="font-medium text-xs">{event.away_team_name}</p>
                         </div>
                     </div>
-                </div>
-                <div className="flex justify-between blur-sm">
-                    <p className="text-xs">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
                 </div>
             </Link>
         </div>

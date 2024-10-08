@@ -1,6 +1,6 @@
 "use client"
 
-import { React, useEffect, useState } from 'react'
+import { React, useEffect, useState, useCallback  } from 'react'
 import Image from 'next/image'
 import ListItem from '../ListItem/ListItem';
 import { NextUIProvider, DatePicker, Input, Textarea } from "@nextui-org/react";
@@ -84,7 +84,8 @@ const PredictionHeader = () => {
     const [eventId, setEventId] = useState(null);
     const [homeTeamId, setHomeTeamId] = useState(null);
     const [awayTeamId, setAwayTeamId] = useState(null);
-    const [desc, setDesc] = useState(null);
+    const [descEng, setDescEng] = useState(null);
+    const [descMn, setDescMn] = useState(null);
     const [option, setOption] = useState(null);
     const [selection, setSelection] = useState(null);
     const [odds, setOdds] = useState(null);
@@ -207,13 +208,22 @@ const PredictionHeader = () => {
             <div className="w-full flex flex-col gap-4 mt-12">
               <EventHeader id={eventId}/>
               <Textarea
-                    label="Description"
+                    label="Description / English /"
                     labelPlacement="outside"
                     placeholder="Enter your prediction description"
                     variant="bordered"
                     size="md"
-                    value={desc}
-                    onChange={(e) => setDesc(e.target.value)}
+                    value={descEng}
+                    onChange={(e) => setDescEng(e.target.value)}
+              />
+              <Textarea
+                    label="Description / Mongolia /"
+                    labelPlacement="outside"
+                    placeholder="Enter your prediction description"
+                    variant="bordered"
+                    size="md"
+                    value={descMn}
+                    onChange={(e) => setDescMn(e.target.value)}
               />
               <Input
                     label="Option / Including Overtime /"
@@ -275,7 +285,7 @@ const PredictionHeader = () => {
                         <button
                         key={league.name}
                         onClick={() => pickLeague(league.league)}
-                        className={`flex flex-col sm:flex-row mx-1 py-2 px-4 border border-black rounded-lg items-center justify-center font-semibold text-[10px] duration-200 ${selectedLeague === league.league ? 'text-white bg-black' : 'text-black'}`}
+                        className={`flex flex-col sm:flex-row mx-1 py-2 px-4 border border-black dark:border-white/20 rounded-lg items-center justify-center font-semibold text-[10px] duration-200 ${selectedLeague === league.league ? 'text-white bg-black dark:bg-white dark:text-black' : 'text-black dark:text-white/50'}`}
                         >
                         {league.icon}
                         {league.name}
@@ -284,7 +294,7 @@ const PredictionHeader = () => {
                 </div>
                 <div className='w-full flex md:justify-start justify-around items-center'>
                     <button onClick={() => minusDate()} className='flex items-center justify-center min-w-8 px-10 md:px-2 text-black/50 hover:text-primary'>
-                        <SlArrowLeft size={16}/>
+                        <SlArrowLeft size={16} className='text-black dark:text-white'/>
                     </button>
                     <DatePicker
                         className='rounded-lg text-xs w-48'
@@ -296,15 +306,15 @@ const PredictionHeader = () => {
                         size="sm"
                     />
                     <button onClick={() => plusDate()} className='flex items-center justify-center min-w-8 px-10 md:px-2 text-black/50 hover:text-primary'>
-                        <SlArrowRight size={16}/>
+                        <SlArrowRight size={16} className='text-black dark:text-white'/>
                     </button>
                 </div>
-                <div className='flex justify-start items-center gap-2 bg-white'>
+                <div className='flex justify-start items-center gap-2'>
                         {options.map((opt) => (
                         <button
                             key={opt.code}
                             onClick={() => pickOption(opt.code)}
-                            className={`flex py-2 px-4 font-medium text-xs rounded-md ${selectedOption === opt.code ? 'bg-primary text-white border-1 border-primary' : 'text-black border-1 border-black/10'}`}
+                            className={`flex py-2 px-4 font-medium text-xs rounded-md ${selectedOption === opt.code ? 'bg-primary text-white dark:text-black border-1 border-primary' : 'text-black dark:text-white border-1 border-black/10 dark:border-white/20'}`}
                         >
                             {opt.name}
                         </button>

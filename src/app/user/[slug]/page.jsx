@@ -6,32 +6,37 @@ import { NextUIProvider, DatePicker, Input } from "@nextui-org/react";
 import { IoMail, IoCalendar , IoDiamond , IoHeart , IoPencil  } from "react-icons/io5";
 import UserProfile from '@/components/User/UserProfile/UserProfile';
 import GuestProfile from '@/components/User/GuestProfile/GuestProfile';
-import { useAuth } from '../../../context/AuthContext';
-
 import { authCheck } from '@/utils/authCheck'
+import LoadingSpinner from '@/components/Loading/loading';
 
 const UserPage = ({params}) => {
-
   const {slug} = params;
   const [ presonal, setPersonal ] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-          const data = await authCheck();
-          if (data == null ) {
-                setPersonal(false)
-          }else{
-              if(data.username == slug){
-                setPersonal(true);
-              }
-          }
-    } catch (error) {
-        console.log(error)
-    }
+      const user = await authCheck();
+      if(!user){
+        setPersonal(false);
+        console.log(user)
+      }else{
+        if(user.username == slug){
+          setPersonal(true);
+        }else{
+          setPersonal(false);
+        }
+      }
+      setLoading(false);
     };
     fetchData();
-}, [slug]);
+  }, []);
+
+  if (loading) {
+    return (
+      <LoadingSpinner/>
+    )
+  }
 
   return (
     <NextUIProvider>

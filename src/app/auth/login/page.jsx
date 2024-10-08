@@ -5,17 +5,16 @@ import { NextUIProvider, Input, Button } from "@nextui-org/react";
 import { IoMail, IoPerson, IoKey, IoEye, IoEyeOff } from "react-icons/io5";
 import { toast } from 'react-toastify';
 import Image from 'next/image'
-import { BsHandThumbsDownFill } from "react-icons/bs";
+import { FaSadCry } from "react-icons/fa";
 import { BsEmojiFrownFill } from "react-icons/bs";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { useAuth } from '@/context/AuthContext'
+import authLogin from "@/utils/authLogin";
 
 const LoginPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const router = useRouter();
   const { contextToken } = useAuth();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -28,32 +27,17 @@ const LoginPage = () => {
         return;
       }
 
-      const payload = {email, password};
+      const response = await authLogin(email, password)
 
-      try {
-        const response = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data.active)
-          if(data.active == 1){
-            contextToken(data.token);
-            router.push(`/user/${data.user}`);
-          }else{
-            toast.error(`${data.message}`, {position: 'top-center', icon: <BsHandThumbsDownFill className='text-red-600'/>, autoClose: 1000  });
-          }
-        } else {
-          const errorData = await response.json();
-          toast.error(`${errorData.message}`, {position: 'top-center', icon: <BsHandThumbsDownFill className='text-red-600'/>, autoClose: 1000  });
+      if (!response) {
+        toast.error(`Email or Password is wrong`, {position: 'top-center', icon: <FaSadCry className='text-red-600'/>, autoClose: 1000  });
+      }else{
+        if(response.active == 1){
+          contextToken(response.token);
+          window.location.href = `/user/${response.user}`;
+        }else{
+          toast.error(`Email or Password is wrong`, {position: 'top-center', icon: <FaSadCry className='text-red-600'/>, autoClose: 1000  });
         }
-      } catch (error) {
-        alert(`An error occurred: ${error.message}`);
       }
     };
 

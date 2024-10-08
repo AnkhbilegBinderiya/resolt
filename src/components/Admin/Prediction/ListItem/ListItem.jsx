@@ -15,7 +15,7 @@ const ListItem = ({event}) => {
     const href = event.prediction !== null ? `/event/${event.league_name.toLowerCase()}/${event.id}` : '#';
 
     return (
-        <div className="flex items-center w-full py-2 border-b border-black/5 text-black text-xs hover:bg-gray-50">
+        <div className="flex items-center w-full py-2 border-b border-black/5 dark:border-white/10 text-black dark:text-white text-xs hover:bg-gray-50 dark:hover:bg-black/20">
             <div className="w-full h-full flex py-1">
                 <div className="flex flex-col font-medium items-center justify-center mx-8 md:w-12 w-8 gap-2">
                     <p>{eventTime}</p>

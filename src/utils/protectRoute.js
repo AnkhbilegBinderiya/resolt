@@ -9,7 +9,7 @@ export const protectRoute = (WrappedComponent) => {
 
     useEffect(() => {
       if (!token) {
-        router.push('/login'); // Redirect to login page if not authenticated
+        window.location.href = `/`; // Redirect to login page if not authenticated
       }
     }, [token, router]);
 

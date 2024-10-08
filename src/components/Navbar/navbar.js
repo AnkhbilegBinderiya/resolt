@@ -11,7 +11,6 @@ import Cookies from 'js-cookie';
 import {authCheck} from '@/utils/authCheck'
 
 const Navbar = () => {
-  const { token } = useAuth();
   const [nav, setNav] = useState(false);
   const [user, setUser] = useState(false);
   const [username, setUserName] = useState("Profile");
@@ -20,27 +19,22 @@ const Navbar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          if (token) {
-            try {
-              const data = await authCheck();
-              if (data && data.username) {
-                setUserName(data.username);
-                setUser(true);
-              }
-            } catch (error) {
-              console.error("Error fetching data:", error);
-              setUser(false);
-            }
-          } else {
-            setUser(false);
-            setUserName("Profile"); 
+        try {
+          const data = await authCheck();
+          if(data){
+            setUserName(data.username);
+            setUser(true);
           }
-    } catch (error) {
-        console.log(error)
-    }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          setUser(false);
+        }
+      } catch (error) {
+          console.log(error)
+      }
     };
     fetchData();
-  }, [token]);
+  }, []);
 
   const links = [
     {
@@ -104,11 +98,11 @@ const Navbar = () => {
         onClick={() => setNav(!nav)}
         className="cursor-pointer pr-4 z-10 text-secondary lg:hidden"
       >
-        {nav ? <FaX size={16} /> : <FaBarsStaggered size={16} />}
+        {nav ? <FaX size={16} className="text-black dark:text-white" /> : <FaBarsStaggered size={16} className="text-black dark:text-white" />}
       </div>
 
       {nav && (
-        <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-white backdrop-blur-2xl text-black">
+        <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-white backdrop-blur-2xl text-black dark:text-white dark:bg-black">
           {links.map(({ id, link, href }) => (
             <li
               key={id}
