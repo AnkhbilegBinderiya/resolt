@@ -86,7 +86,7 @@ const UserPlan = () => {
             }
       };
       fetchData();
-    }, []);
+    }, [searchParams]);
 
     useEffect(() => {
       if(!mon || !plan){
