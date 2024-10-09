@@ -6,6 +6,8 @@ import { useAuth } from '../../../context/AuthContext';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react';
+import fetchUserData from '@/utils/userData';
+import LoadingSpinner from '@/components/Loading/loading';
 
 const avatar = [
     {key: "1", label: "/assets/image/user/user1.png"},
@@ -27,34 +29,33 @@ const UserProfile = () => {
     const [user, setUser] = useState(null);
     const [profile, setProfile] = useState();
     const [proKey, setProKey] = useState();
-    const [error, setError] = useState(null);
-    const { token } = useAuth();
+    const [loading, setLoading] = useState(true);
 
     const searchParams = useSearchParams();
     const username = searchParams.get('user');
 
     useEffect(() => {
         const fetchData = async () => {
-        try {
-          if (token) {
-            const response = await fetch(`http://localhost:6969/user/data/name/${username}`);
-            if (!response.ok) {
-            throw new Error(`No data found`);
-                }
-            const result = await response.json();
-            setData(result);
-            if(result){
-                setProfile(result.profile)
-                setUser(result.id)
+          if(username != null){
+            const response = await fetchUserData(username);
+            if (!response) {
+              window.location.href="/auth/login"
+            }else{
+              setData(response);
+              setProfile(response.profile);
+              setUser(response.id);
+              setLoading(false);
             }
           }
-        } catch (error) {
-            setData([]);
-            setError(error.message);
-        }
         };
         fetchData();
-    }, [token, username]);
+    }, [username]);
+
+    if(loading){
+      return(
+        <LoadingSpinner/>
+      )
+    }
 
     const save = async () => {
         if (!profile ||  !user) {

@@ -3,42 +3,43 @@
 import { React, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from "next/link";
-import { useAuth } from './../../context/AuthContext';
 import { toast } from 'react-toastify';
 
 const Prediction = ({id}) => {
-    const { token, role } = useAuth();
     const [data, setData] = useState([]);
     const [ready, setReady] = useState(false);
+    const [auth, setAuth] = useState(false);
 
     useEffect(() => {
-        try {
-            if (token) {
-                const fetchData = async () => {
-                    try {
-                        const response = await fetch(`http://localhost:6969/prediction/nba/main/${id}`);
-                        if (!response.ok) {
-                        throw new Error(`No data found`);
-                        }
-                        const result = await response.json();
-                        setData(result)
-        
-                        if(result && result.status === 1){
-                            setReady(true);
-                        }else{
-                            setReady(false);
-                        }
-        
-                    } catch (error) {
-                        console.log(error);;
-                    }
-                };
-                fetchData();
+        const fetchData = async () => {
+            const data = await authCheck();
+            if(!data){
+                setAuth(false);
+            }else{
+                setAuth(true);
             }
-        } catch (error) {
-            console.error('Fetch error:', error);
+
+            if (auth) {
+                try {
+                    const response = await fetch(`http://localhost:6969/prediction/nba/main/${id}`);
+                    if (!response.ok) {
+                    throw new Error(`No data found`);
+                    }
+                    const result = await response.json();
+                    setData(result)
+
+                    if(result && result.status === 1){
+                        setReady(true);
+                    }else{
+                        setReady(false);
+                    }
+                }catch(error){
+                    console.log("failed");
+                }
+            }
         }
-    }, [id, token]);
+        fetchData();
+    }, [id, auth]);
 
     return (
         <div className="w-full flex p-4 flex-col">

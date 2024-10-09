@@ -1,16 +1,22 @@
 import { React, useEffect, useState } from 'react';
-import { useAuth } from '../../../src/context/AuthContext';
 import CustomerComments from './CustomerComments/CustomerComments';
 import NewComment from './NewComment/NewComment';
-import { fetchUserId } from '../../utils/fetchUserId'
+import authCheck from '@/utils/authCheck';
 
 const Comment = ({ id }) => {
     const [comments, setComments] = useState([]);
-    const { token } = useAuth();
+    const [auth, setAuth] = useState(false);
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            const data = await authCheck();
+            if(!data){
+                setAuth(false);
+            }else{
+                setAuth(true);
+                setUserId(data.id);
+            }
             try {
                 const response = await fetch(`http://localhost:6969/comment/get/${id}`);
                 if (!response.ok) {
@@ -21,19 +27,15 @@ const Comment = ({ id }) => {
             } catch (error) {
                 console.error('Fetch error:', error);
             }
-            if(token){
-                const fetchedId = await fetchUserId(token);
-                setUserId(fetchedId)
-            }
         };
     fetchData();
-    }, [id, token]);
+    }, [id]);
 
     const handleNewComment = (newComment) => {
         setComments((prevComments) => [...prevComments, newComment]);
     };
 
-    if(token){
+    if(auth){
         return (
             <div className="w-full flex flex-col p-4">
                 <CustomerComments id={id} comments={comments}/>

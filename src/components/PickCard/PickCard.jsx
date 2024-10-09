@@ -3,7 +3,6 @@
 import { React, useEffect, useState } from 'react'
 import { Image } from "@nextui-org/react";
 import Link from "next/link";
-import { useAuth } from '../../context/AuthContext';
 
 const PickCard = ({data}) => {
 

@@ -5,7 +5,6 @@ import { NextUIProvider, Input, Button } from "@nextui-org/react";
 import { IoMail, IoPerson, IoKey, IoEye, IoEyeOff } from "react-icons/io5";
 import { useAuth } from '../../../context/AuthContext';
 import { toast } from 'react-toastify';
-import { fetchUserRole } from '../../../utils/fetchUserRole'
 import { BsHandThumbsDownFill } from "react-icons/bs";
 import authLogin from "@/utils/authLogin";
 

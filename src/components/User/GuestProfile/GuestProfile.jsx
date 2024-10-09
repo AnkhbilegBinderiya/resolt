@@ -3,9 +3,7 @@
 import { React, useEffect, useState } from 'react'
 import { NextUIProvider, DatePicker, Input, Progress, Image, Tooltip } from "@nextui-org/react";
 import { IoExitOutline } from "react-icons/io5";
-import { useAuth } from '../../../context/AuthContext';
 import { MdWavingHand } from "react-icons/md";
-import { fetchUserId } from '../../../utils/fetchUserId'
 import { GiMongolia } from "react-icons/gi";
 import fetchUserData from '@/utils/userData';
 import LoadingSpinner from '@/components/Loading/loading';

@@ -20,7 +20,6 @@ import { Switch } from "@nextui-org/react";
 import { RiCustomerServiceLine } from "react-icons/ri";
 import { FaBrain } from "react-icons/fa";
 import ProductComponent from '@/components/productComponent/productComponent';
-import { useAuth } from '@/context/AuthContext';
 import authCheck from '@/utils/authCheck';
 
 export default function Home() {
@@ -29,16 +28,12 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
         const data = await authCheck();
         if(!data){
           setHref(`/auth/login`);
         }else{
           setHref(`/user/plan?name=${data.username}`);
         }
-    } catch (error) {
-        console.log(error)
-    }
     };
     fetchData();
   });

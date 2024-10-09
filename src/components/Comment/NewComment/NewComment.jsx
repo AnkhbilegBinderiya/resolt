@@ -4,20 +4,22 @@ import { React, useEffect, useState } from 'react'
 import {Textarea} from "@nextui-org/react";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { fetchUserId } from '../../../utils/fetchUserId'
-import { useAuth } from '../../../context/AuthContext';
+import authCheck from '@/utils/authCheck';
 
 const NewComment = ({id, userId, onNewComment}) => {
     const [customerId, setCustomerId] = useState(userId);
     const [eventId] = useState(id);
     const [comment, setComment] = useState();
-    const { username } = useAuth();
+    const [username, setUsername] = useState("Anonymous");
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = Cookies.get("token");
-            const fetchedId = await fetchUserId(token);
-            setCustomerId(fetchedId)
+            const data = await authCheck();
+            if(!data){
+            }else{
+                setCustomerId(data.id);
+                setUsername(data.username);
+            }
         };
         fetchData();
     }, [id, userId]);

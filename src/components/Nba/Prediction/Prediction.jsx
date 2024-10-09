@@ -3,15 +3,14 @@ import PredictionStat from '@/components/Nba/PredictionStat/PredictionStat';
 import Picker from '@/components/Picker/Picker';
 import Prediction from '@/components/Prediction/Prediction';
 import PredictionPoint from '../PredictionPoint/PredictionPoint';
-import { useAuth } from '../../../context/AuthContext';
-import { fetchUserRole } from '../../../utils/fetchUserRole'
 import Image from 'next/image'
 import Comment from '@/components/Comment/Comment';
+import authCheck from '@/utils/authCheck';
 
 const Pred = ({ id }) => {
   const [data, setData] = useState([]);
-  const { token } = useAuth();
   const [role, setRole] = useState(); 
+  const [auth, setAuth] = useState(false);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -22,20 +21,22 @@ const Pred = ({ id }) => {
         }
         const result = await response.json();
         setData(result);
-
-        if(token){
-          const fetchedRole = await fetchUserRole(token);
-          setRole(fetchedRole);
+        const respo = await authCheck();
+        if(!respo){
+            setAuth(false)
+        }else{
+            setRole(respo.role);
+            setAuth(true);
         }
       } catch (error) {
         console.error('Fetch error:', error);
       }
     };
     fetchData();
-  }, [id, token]);
+  }, [id]);
 
 
-  if(token){
+  if(auth){
     if (role == 1) {
       return (
         <div className="w-full flex flex-col">

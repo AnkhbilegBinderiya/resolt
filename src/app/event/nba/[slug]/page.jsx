@@ -9,6 +9,7 @@ import Games from '@/components/Nba/Games/Games';
 import StandingMultiply from '@/components/Nba/StandingMultiply/StandingMultiply';
 import Pred from '@/components/Nba/Prediction/Prediction';
 import Result from '@/components/Nba/Result/Result';
+import LoadingSpinner from '@/components/Loading/loading';
 
 const selection = [
     {
@@ -33,12 +34,12 @@ const TeamPage = ({params}) => {
   const [data, setData] = useState([]);
   const [selectedSelection, setSelectedSelection] = useState("prediction");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const {slug} = params;
 
   useEffect(() => {
     const fetchData = async () => {
-
       try {
         const response = await fetch(`http://localhost:6969/events/${slug}`);
         if (!response.ok) {
@@ -46,6 +47,7 @@ const TeamPage = ({params}) => {
         }
         const result = await response.json();
         setData(result);
+        setLoading(false)
         setError(null);
       } catch (error) {
         setData([]);
@@ -80,6 +82,12 @@ const TeamPage = ({params}) => {
         return <div className="text-red-500 text-center py-4">{error}</div>;
     }
   };
+
+  if(loading){
+    return (
+      <LoadingSpinner/>
+    )
+  }
 
   return (
     <NextUIProvider>
