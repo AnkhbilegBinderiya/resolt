@@ -41,8 +41,8 @@ const UserPlan = () => {
   const [bank, setBank] = useState("1");
   const [data, setData] = useState("null");
   const [loading, setLoading] = useState(true);
-  const [userBank, setUserBank] = useState('Хаан Банк');
-  const [userAcc, setUserAcc] = useState('500412432');
+  const [userBank, setUserBank] = useState('Худалдаа хөгжлийн банк');
+  const [userAcc, setUserAcc] = useState('499287077');
   const [userName, setUserName] = useState('Б. Анхбилэг');
   const searchParams = useSearchParams()
 
@@ -86,15 +86,15 @@ const UserPlan = () => {
             }
       };
       fetchData();
-    });
+    }, []);
 
     useEffect(() => {
       if(!mon || !plan){
         return
       }else{
-        const price = plan-1
-        setPrice(mon*price*10);
-        setTugrug(mon*price*10*3370)
+        console.log(plan);
+        setPrice(mon*plan);
+        setTugrug(mon*plan*3370)
       }
     }, [ mon, plan]);
 
@@ -172,7 +172,7 @@ const UserPlan = () => {
 
     const copyDesc = () => {
       try {
-        navigator.clipboard.writeText(data);
+        navigator.clipboard.writeText(data.username);
         toast.success('Successfully copied username',{position: 'top-center', autoClose: 1000,});
       } catch (err) {
         toast.warning('Failed ', {position: 'top-center'});
@@ -202,9 +202,9 @@ const UserPlan = () => {
                     <button
                       key={key}
                       className={`flex flex-col p-4 w-full rounded-lg border-1 gap-2 duration-200 ${
-                        plan === key ? 'bg-black text-white dark:bg-white dark:text-black scale-105' : 'border-black/50 dark:border-white/10'
+                        plan === price ? 'bg-black text-white dark:bg-white dark:text-black scale-105' : 'border-black/50 dark:border-white/10'
                       }`}
-                      onClick={() => changePlan(key)}
+                      onClick={() => changePlan(price)}
                       aria-pressed={plan === key}
                     >
                       <div className="flex w-full justify-between">
@@ -242,7 +242,8 @@ const UserPlan = () => {
                     width={300}
                     height={300}
                     alt="NextUI hero Image"
-                    src="https://www.montsame.mn/files/5ea93b1e64da5.png"
+                    src="https://www.greenclimate.fund/sites/default/files/organisation/logo-tdbm.png"
+                    radius="none"
                   />
                   
                   <div className="flex flex-col md:flex-row gap-4 text-xs">
