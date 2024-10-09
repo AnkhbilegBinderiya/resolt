@@ -93,6 +93,7 @@ const CustomerTable = () => {
                   size="md"
                   value={id}
                   onChange={(e) => setId(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="username"
@@ -103,6 +104,7 @@ const CustomerTable = () => {
                   size="md"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="email"
@@ -113,6 +115,7 @@ const CustomerTable = () => {
                   size="md"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="num"
@@ -122,6 +125,7 @@ const CustomerTable = () => {
                   size="md"
                   value={num}
                   onChange={(e) => setNum(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="role"
@@ -131,6 +135,7 @@ const CustomerTable = () => {
                   size="md"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
+                  aria-label="resoltx"
             />
             <button onClick={() => saveCustomerData()} className="bg-blue-700 text-white py-2 px-4 rounded-lg">
               Save

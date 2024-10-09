@@ -56,6 +56,7 @@ const LoginPage = () => {
                   labelPlacement="outside"
                   placeholder="Enter your email"
                   variant="bordered"
+                  aria-label="resoltx"
                   size="md"
                   startContent={<IoMail className="text-black dark:text-white pointer-events-none flex-shrink-0" />}
                   value={email}
@@ -67,6 +68,7 @@ const LoginPage = () => {
                   placeholder="Enter your password"
                   variant="bordered"
                   size="md"
+                  aria-label="resoltx"
                   endContent={
                     <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                       {isVisible ? (

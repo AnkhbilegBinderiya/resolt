@@ -120,6 +120,7 @@ const RegisterPage = () => {
                   placeholder="Enter your Email"
                   variant="bordered"
                   size="md"
+                  aria-label="resoltx"
                   startContent={<IoMail className="text-black dark:text-white pointer-events-none flex-shrink-0" />}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -130,6 +131,7 @@ const RegisterPage = () => {
                   placeholder="Enter your Username"
                   variant="bordered"
                   size="md"
+                  aria-label="resoltx"
                   startContent={<IoPerson className="text-black dark:text-white pointer-events-none flex-shrink-0" />}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -140,6 +142,7 @@ const RegisterPage = () => {
                   placeholder="Your password"
                   variant="bordered"
                   size="md"
+                  aria-label="resoltx"
                   endContent={
                     <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                       {isVisible ? (
@@ -159,6 +162,7 @@ const RegisterPage = () => {
                   labelPlacement="outside"
                   placeholder="Your password"
                   variant="bordered"
+                  aria-label="resoltx"
                   size="md"
                   endContent={
                     <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
@@ -220,6 +224,7 @@ const RegisterPage = () => {
                   startContent={<IoMail className="text-black dark:text-white pointer-events-none flex-shrink-0" />}
                   value={verifyCode}
                   onChange={(e) => setVerifyCode(e.target.value)}
+                  aria-label="resoltx"
                 />
                 <Button color="primary" type="submit">
                   Verify

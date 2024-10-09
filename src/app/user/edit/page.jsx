@@ -1,6 +1,6 @@
 "use client"
 
-import { React, useEffect, useState } from 'react'
+import { React, useEffect, useState, Suspense }  from 'react'
 import { NextUIProvider, DatePicker, Input, Select, SelectItem, Button, Avatar} from "@nextui-org/react";
 import { PiGenderIntersexLight } from "react-icons/pi";
 import { PiGenderFemale } from "react-icons/pi";
@@ -9,11 +9,8 @@ import { CiBank } from "react-icons/ci";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { MdOutlineNumbers } from "react-icons/md";
 import { CiMobile1 } from "react-icons/ci";
-import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation'
-
-
 
 const Edit = () => {
     const [data, setData] = useState([]);
@@ -127,6 +124,7 @@ const Edit = () => {
                 <p className='text-black dark:text-white font-semibold text-center'>{name} personal data</p>
                 <form onSubmit={handleSubmit} className="flex flex-col w-full gap-4 md:justify-center">
                     <Select
+                        aria-label="resoltx"
                         label="Your gender"
                         labelPlacement="outside"
                         placeholder="gender"
@@ -154,12 +152,14 @@ const Edit = () => {
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                         type="number"
+                        aria-label="resoltx"
                     />
                     <div className='flex flex-col gap-2'>
                         <p className='font-semibold text-lg'>Payment Section</p>
                         <p className='text-sm'>Please only after the registration promo code <a href="" className='font-semibold'>ResoltX</a> and fill save this label. Then you get your cashback when you want anytime, anywhere. <a href="" className='text-primary underline-offset-2 underline'>What is cashback ?</a></p>
                     </div>
                     <Select
+                        aria-label="resoltx"
                         labelPlacement="outside"
                         label="Your Bank"
                         variant="bordered"
@@ -197,12 +197,14 @@ const Edit = () => {
                         value={accountNum}
                         onChange={(e) => setAccountNum(e.target.value)}
                         type="number"
+                        aria-label="resoltx"
                     />
                     <div className='flex flex-col gap-2'>
                         <p className='font-semibold text-lg'>Partner Section</p>
                         <p className='text-sm'>Please only after the registration promo code <a href="" className='font-semibold'>ResoltX</a> and fill save this label. If you are not partner you can follow this link and know all iformation. <a href="" className='text-primary underline-offset-2 underline'>What is partner ?</a></p>
                     </div>
                     <Select
+                        aria-label="resoltx"
                         label="Your partner app"
                         labelPlacement="outside"
                         placeholder="Your app"
@@ -230,6 +232,7 @@ const Edit = () => {
                         value={appNum}
                         onChange={(e) => setAppNum(e.target.value)}
                         type="number"
+                        aria-label="resoltx"
                     />
                     <div className='flex md:flex-row flex-col gap-4'>
                         <Button onClick={handleBack} className='bg-widgetLight dark:bg-labelDark w-full'>
@@ -249,4 +252,11 @@ const Edit = () => {
   )
 }
 
-export default Edit
+
+const UserEditPage = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <Edit />
+    </Suspense>
+  );
+
+export default UserEditPage

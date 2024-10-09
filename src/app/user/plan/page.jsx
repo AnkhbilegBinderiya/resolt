@@ -222,6 +222,7 @@ const UserPlan = () => {
                     labelPlacement="outside"
                     label="Хугацаа"
                     placeholder="Select your Plan date"
+                    aria-label="resoltx"
                     value={mon}
                     onChange={(e) => setMon(e.target.value)}
                   >
@@ -247,8 +248,9 @@ const UserPlan = () => {
                   />
                   
                   <div className="flex flex-col md:flex-row gap-4 text-xs">
-                    <Input isReadOnly value={userBank} size="sm" variant="bordered" label="Банк" labelPlacement="outside"/>
+                    <Input aria-label="resoltx" isReadOnly value={userBank} size="sm" variant="bordered" label="Банк" labelPlacement="outside"/>
                     <Input  
+                    aria-label="resoltx"
                       isReadOnly 
                       value={userAcc} 
                       size="sm" 
@@ -262,9 +264,10 @@ const UserPlan = () => {
                           </button>
                         </Tooltip>
                     }/>
-                    <Input  isReadOnly value={userName} size="sm" variant="bordered" label="Эзэмшигчийн нэр" labelPlacement="outside"/>
+                    <Input aria-label="resoltx" isReadOnly value={userName} size="sm" variant="bordered" label="Эзэмшигчийн нэр" labelPlacement="outside"/>
                   </div>
                   <Input
+                      aria-label="resoltx"
                       isReadOnly
                       label={`Төлөх төлбөр ( ${price} $ )`}
                       labelPlacement="outside"
@@ -287,6 +290,7 @@ const UserPlan = () => {
                       type="number"
                   />
                   <Input
+                      aria-label="resoltx"
                       isReadOnly
                       label="Гүйлгээний утга ( хэрэглэгчийн нэр )"
                       labelPlacement="outside"

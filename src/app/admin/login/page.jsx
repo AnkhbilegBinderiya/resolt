@@ -45,6 +45,7 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit} className="flex flex-row w-full gap-4 md:justify-center">
               <div className="flex flex-col w-full min-w-96 md:w-1/2 bg-white dark:bg-widgetDark rounded-lg p-12 justify-center gap-4">
                 <Input
+                aria-label="resoltx"
                   label="Your ID"
                   labelPlacement="outside"
                   placeholder="Enter your ADMIN id"
@@ -55,6 +56,7 @@ const LoginPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
+                aria-label="resoltx"
                   label="Password"
                   labelPlacement="outside"
                   placeholder="Enter your password"

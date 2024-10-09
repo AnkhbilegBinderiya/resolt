@@ -108,6 +108,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={dtl}
                   onChange={(e) => setDtl(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="customer_id"
@@ -118,6 +119,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={customer}
                   onChange={(e) => setCustomer(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="profile"
@@ -128,6 +130,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={profile}
                   onChange={(e) => setProfile(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="plan_id"
@@ -137,6 +140,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={planId}
                   onChange={(e) => setPlanId(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="plan_start"
@@ -146,6 +150,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={planStart}
                   onChange={(e) => setPlanStart(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="plan_end"
@@ -155,6 +160,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={planEnd}
                   onChange={(e) => setPlanEnd(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="partner_id"
@@ -165,6 +171,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={partnerId}
                   onChange={(e) => setPartnerId(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="partner_point"
@@ -175,6 +182,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={partnerPoint}
                   onChange={(e) => setPartnerPoint(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="app_name"
@@ -184,6 +192,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={appName}
                   onChange={(e) => setAppName(e.target.value)}
+                  aria-label="resoltx"
             />
             <Input
                   label="app_id"
@@ -193,6 +202,7 @@ const CustomerDataTable = () => {
                   size="md"
                   value={appId}
                   onChange={(e) => setAppId(e.target.value)}
+                  aria-label="resoltx"
             />
             <button onClick={() => saveCustomerData()} className="bg-blue-700 text-white py-2 px-4 rounded-lg">
               Save

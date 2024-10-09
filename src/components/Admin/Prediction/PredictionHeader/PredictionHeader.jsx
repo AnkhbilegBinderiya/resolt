@@ -215,6 +215,7 @@ const PredictionHeader = () => {
                     size="md"
                     value={descEng}
                     onChange={(e) => setDescEng(e.target.value)}
+                    aria-label="resoltx"
               />
               <Textarea
                     label="Description / Mongolia /"
@@ -224,6 +225,7 @@ const PredictionHeader = () => {
                     size="md"
                     value={descMn}
                     onChange={(e) => setDescMn(e.target.value)}
+                    aria-label="resoltx"
               />
               <Input
                     label="Option / Including Overtime /"
@@ -233,6 +235,7 @@ const PredictionHeader = () => {
                     size="md"
                     value={option}
                     onChange={(e) => setOption(e.target.value)}
+                    aria-label="resoltx"
               />
               <Input
                     label="Selection / New York Wins /"
@@ -242,6 +245,7 @@ const PredictionHeader = () => {
                     size="md"
                     value={selection}
                     onChange={(e) => setSelection(e.target.value)}
+                    aria-label="resoltx"
               />
               <Input
                     label="Odds / 2.16 /"
@@ -251,6 +255,7 @@ const PredictionHeader = () => {
                     size="md"
                     value={odds}
                     onChange={(e) => setOdds(e.target.value)}
+                    aria-label="resoltx"
               />
               <Input
                     label="status"
@@ -260,6 +265,7 @@ const PredictionHeader = () => {
                     size="md"
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
+                    aria-label="resoltx"
               />
               <Input
                     label="type"
@@ -269,6 +275,7 @@ const PredictionHeader = () => {
                     size="md"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
+                    aria-label="resoltx"
               />
               <button onClick={() => savePrediction()} className="bg-blue-700 text-white py-2 px-4 rounded-lg">
                 Save

@@ -49,6 +49,7 @@ const RequestHeader = () => {
                                 size="sm"
                                 startContent={<CiSearch size={18} />}
                                 type="search"
+                                aria-label="resoltx"
                         />
                     </div>
                 </div>

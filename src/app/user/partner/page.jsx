@@ -100,6 +100,7 @@ const UserPartner = () => {
                 <p className='text-primary font-semibold'>Send Partner Request</p>
                 <form onSubmit={handleSubmit} className="flex flex-col w-full gap-4 md:justify-center">
                 <Select
+                    aria-label="resoltx"
                     label="Ашигладаг апп"
                     labelPlacement="outside"
                     placeholder="Your app"
@@ -128,8 +129,10 @@ const UserPartner = () => {
                     value={id}
                     onChange={(e) => setId(e.target.value)}
                     type="number"
+                    aria-label="resoltx"
                 />
                 <Select
+                  aria-label="resoltx"
                   isRequired
                   labelPlacement="outside"
                   label="Төлбөр хүлээн авах банк"
@@ -169,6 +172,7 @@ const UserPartner = () => {
                     value={account}
                     onChange={(e) => setAccount(e.target.value)}
                     type="number"
+                    aria-label="resoltx"
                 />
                 <p className='text-red-500'>Тоглогчийн ID зөвхөн <a href="https://refpakrtsb.top/L?tag=d_3330381m_45415c_&site=3330381&ad=45415" className='text-black font-semibold underline underline-offset-4 dark:text-white'>resoltx</a> промо кодыг ашиглан бүртгүүлсэн байх ёстой ба дансны дугаар болон банк аа сайн шалгаж илгээнэ үү. Хэрэв асуух зүйл гарвал <a href="https://t.me/Resoltx" className='underline underline-offset-4 text-black font-semibold dark:text-white'>бидэнд</a> мэдэгдэнэ үү</p>
                 <Button color="primary" type="submit">

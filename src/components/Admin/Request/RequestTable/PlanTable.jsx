@@ -79,6 +79,7 @@ const PlanTable = () => {
         <NextUIProvider>
           <div className="w-full flex flex-col gap-4 mt-12">
             <Input
+                  aria-label="username"
                   label="username"
                   labelPlacement="outside"
                   placeholder="--------"
@@ -89,6 +90,7 @@ const PlanTable = () => {
                   onChange={(e) => setUsername(e.target.value)}
             />
             <Input
+                  aria-label="resoltx"
                   label="Status"
                   labelPlacement="outside"
                   placeholder="--------"

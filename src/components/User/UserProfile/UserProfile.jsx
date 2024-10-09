@@ -107,8 +107,9 @@ const UserProfile = ({name}) => {
                         <div className='flex flex-col justify-center h-full gap-4'>
                                 <div className='w-full flex flex-col gap-2'>
                                     <div className='flex flex-col gap-2'>
-                                        <p className='text-xs font-semibold text-black/20 dark:text-white/20'>id: {data.id}</p>
+                                        
                                         <p className='text-secondary text-4xl font-semibold text-black dark:text-white'>{name}</p>
+                                        <p className='text-xs font-semibold text-black/20 dark:text-white/20'>{data.bio == null ? 'Your bio' : data.bio}</p>
                                     </div>
                                 </div>
                                 <div className='flex justify-end ml-auto gap-4 mr-12'>
