@@ -45,7 +45,7 @@ const TeamPage = ({params}) => {
     const fetchData = async () => {
       const response = await fetchEventsData(slug);
 
-      if (!response.ok) {
+      if (!response) {
         setLoading(false);
       }else{
         setData(response);
@@ -95,22 +95,21 @@ const TeamPage = ({params}) => {
         <div className="w-full md:w-2/4 h-full mr-auto mt-16 mx-auto flex flex-col gap-4">
           <div className='flex flex-col w-full mt-2 bg-white dark:bg-widgetDark rounded-xl py-4 text-black dark:text-white dark:border dark:border-white/10'>
 
-          <EventHeader id={slug} />
+              <EventHeader header={data} />
             
-            <div className='w-full border-y-1 border-black/10 dark:border-white/10 mt-4'>
-                <div className='flex pl-2 items-center'>
-                {selection.map((slct) => (
-                    <button
-                    key={slct.name}
-                    onClick={() => pickSelection(slct.selection)}
-                    className={`flex flex-col gap-1 py-3 items-center border-b-3 justify-center px-1 mx-4 text-sm  duration-200 ${selectedSelection === slct.selection ? ' text-black dark:text-white font-semibold border-black dark:border-white' : 'font-semibold text-black/60 dark:text-white/60 border-transparent'}`}
-                    >
-                        {slct.name}
-                    </button>
-                ))}
-                </div>
-            </div>
-
+              <div className='w-full border-y-1 border-black/10 dark:border-white/10 mt-4'>
+                  <div className='flex pl-2 items-center'>
+                  {selection.map((slct) => (
+                      <button
+                      key={slct.name}
+                      onClick={() => pickSelection(slct.selection)}
+                      className={`flex flex-col gap-1 py-3 items-center border-b-3 justify-center px-1 mx-4 text-sm  duration-200 ${selectedSelection === slct.selection ? ' text-black dark:text-white font-semibold border-black dark:border-white' : 'font-semibold text-black/60 dark:text-white/60 border-transparent'}`}
+                      >
+                          {slct.name}
+                      </button>
+                  ))}
+                  </div>
+              </div>
 
             {renderContent()}
 
