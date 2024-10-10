@@ -13,7 +13,7 @@ const Standing = ({id}) => {
         const fetchData = async () => {
 
         try {
-            const response = await fetch(`http://localhost:6969/standing/nba`);
+            const response = await fetch(`http://localhost:6969/standing/nba`, { cache: 'no-store' });
             if (!response.ok) {
             throw new Error(`No data found`);
             }

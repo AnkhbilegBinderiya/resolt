@@ -78,17 +78,17 @@ const TeamPage = ({params}) => {
         <div className='hidden md:flex lg:w-1/4 mt-1'></div>
 
         <div className="w-full lg:w-2/4 h-full mr-auto mt-16 mx-auto flex flex-col gap-4">
-          <div className='flex flex-col w-full mt-2 bg-white rounded-xl pt-4'>
+          <div className='flex flex-col w-full mt-2 bg-white dark:bg-widgetDark rounded-xl pt-4'>
 
           <TeamHeader id={slug} />
             
-            <div className='w-full border-y-1 mt-4'>
+            <div className='w-full border-y-1 border-black/10 dark:border-white/10 mt-4'>
                 <div className='flex pl-8 items-center'>
                 {option.map((opt) => (
                     <button
                     key={opt.name}
                     onClick={() => pickOption(opt.selection)}
-                    className={`flex flex-col gap-1 py-3 items-center border-b-3 justify-center px-1 mx-4 text-sm  duration-200 ${selectedOption === opt.selection ? ' text-black font-semibold border-black' : 'font-semibold text-black/60 border-transparent'}`}
+                    className={`flex flex-col gap-1 py-3 items-center border-b-3 justify-center px-1 mx-4 text-sm  duration-200 ${selectedOption === opt.selection ? ' text-black font-semibold border-black dark:text-white dark:border-white' : 'font-semibold text-black/60 border-transparent dark:text-white/50'}`}
                     >
                         {opt.name}
                     </button>
