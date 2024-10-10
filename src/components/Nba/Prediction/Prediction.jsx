@@ -6,35 +6,45 @@ import PredictionPoint from '../PredictionPoint/PredictionPoint';
 import Image from 'next/image'
 import Comment from '@/components/Comment/Comment';
 import authCheck from '@/utils/authCheck';
+import LoadingSpinner from '@/components/Loading/loading';
+import fetchEventsData from '@/utils/eventsData';
 
 const Pred = ({ id }) => {
   const [data, setData] = useState([]);
   const [role, setRole] = useState(); 
   const [auth, setAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:6969/events/${id}`);
-        if (!response.ok) {
-          throw new Error(`No data found`);
-        }
-        const result = await response.json();
-        setData(result);
-        const respo = await authCheck();
-        if(!respo){
-            setAuth(false)
-        }else{
-            setRole(respo.role);
-            setAuth(true);
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
+      const response = await fetchEventsData(id);
+
+      if (!response.ok) {
+        setLoading(false);
+      }else{
+        setData(response);
+        setLoading(false);
+        setError(null);
+      }
+
+      const respo = await authCheck();
+      if(!respo){
+          setAuth(false);
+          setLoading(false);
+      }else{
+        setRole(respo.role);
+        setAuth(true);
+        setLoading(false);
       }
     };
     fetchData();
   }, [id]);
 
+  if(loading){
+    return (
+      <LoadingSpinner />
+    )
+  }
 
   if(auth){
     if (role == 1) {

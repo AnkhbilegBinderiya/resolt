@@ -10,6 +10,8 @@ import StandingMultiply from '@/components/Nba/StandingMultiply/StandingMultiply
 import Pred from '@/components/Nba/Prediction/Prediction';
 import Result from '@/components/Nba/Result/Result';
 import LoadingSpinner from '@/components/Loading/loading';
+import NotFoundScreen from '@/components/NotFound/notFound';
+import fetchEventsData from '@/utils/eventsData';
 
 const selection = [
     {
@@ -35,25 +37,22 @@ const TeamPage = ({params}) => {
   const [selectedSelection, setSelectedSelection] = useState("prediction");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState(false);
 
   const {slug} = params;
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:6969/events/${slug}`);
-        if (!response.ok) {
-          throw new Error(`No data found`);
-        }
-        const result = await response.json();
-        setData(result);
-        setLoading(false)
-        setError(null);
-      } catch (error) {
-        setData([]);
-        setError(error.message);
-      }
+      const response = await fetchEventsData(slug);
 
+      if (!response.ok) {
+        setLoading(false);
+      }else{
+        setData(response);
+        setStatus(response.status != null ? true : false);
+        setLoading(false);
+        setError(null);
+      }
     };
     fetchData();
   }, [slug]);
@@ -61,8 +60,6 @@ const TeamPage = ({params}) => {
   const pickSelection = (selection) => {
     setSelectedSelection(selection);
   };
-
-  const status = data.status !== null ? true : false;
 
 
   const renderContent = () => {

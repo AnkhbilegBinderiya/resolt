@@ -48,7 +48,7 @@ const Comment = ({ id }) => {
                 <CustomerComments id={id} comments={comments}/>
                 <div className='flex gap-1 mx-auto'>
                     <p>You need to</p> 
-                    <p className='text-primary font-semibold'>Login</p>
+                    <a href="/auth/login" className='text-primary font-semibold'>Login</a>
                 </div>
             </div>
         );
