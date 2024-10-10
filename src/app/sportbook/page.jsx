@@ -15,6 +15,8 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { SlArrowLeft } from "react-icons/sl";
 import { SlArrowRight } from "react-icons/sl";
+import fetchBookData from '@/utils/bookSearch';
+import LoadingSpinner from '@/components/Loading/loading';
 
 
 
@@ -78,7 +80,7 @@ const SportBookPage = () => {
   const [date, setDate] = useState(new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()));
   const [selectedLeague, setSelectedLeague] = useState("NBA");
   const [selectedOption, setSelectedOption] = useState("ALL");
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,17 +89,12 @@ const SportBookPage = () => {
       const day = String(date.day).padStart(2, '0');
       const formattedDate = `${year}-${month}-${day}`;
 
-      try {
-        const response = await fetch(`http://localhost:6969/books?league=${selectedLeague}&date=${formattedDate}&option=${selectedOption}`);
-        if (!response.ok) {
-          throw new Error(`No data found for ${selectedLeague} on ${formattedDate}`);
-        }
-        const result = await response.json();
-        setData(result);
-        setError(null);
-      } catch (error) {
-        setData([]);
-        setError(error.message);
+      const response = await fetchBookData(selectedLeague, formattedDate, selectedOption);
+      if (!response) {
+          setLoading(false);
+      }else{
+          setData(response);
+          setLoading(false)
       }
     };
 
@@ -127,6 +124,12 @@ const SportBookPage = () => {
     const newCalendarDate = new CalendarDate(currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate());
     setDate(newCalendarDate);
   };
+
+  if(loading){
+    return(
+      <LoadingSpinner/>
+    )
+  }
 
   return (
     <NextUIProvider>
@@ -191,10 +194,7 @@ const SportBookPage = () => {
                   </button>
                 </div>
               </div>
-              {error ? (
-                <div className="text-red-500 text-center py-4">{error}</div>
-              ) : (
-                <ul>
+              <ul>
                   {data.length > 0 ? (
                     data.map((event) => (
                       <div className='flex flex-col w-full' key={event.id}>
@@ -206,8 +206,7 @@ const SportBookPage = () => {
                   ) : (
                     <div className="text-center py-4">No events found for the selected date and league.</div>
                   )}
-                </ul>
-              )}
+              </ul>
             </div>
           </div>
           <div className='hidden md:flex lg:w-1/4 mt-1'></div>
